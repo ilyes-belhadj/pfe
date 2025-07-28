@@ -1,0 +1,53 @@
+<h2>Gestion des offres d'emploi</h2>
+<form [formGroup]="offreForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <label>Titre</label>
+    <input matInput formControlName="titre" required>
+    <mat-error *ngIf="offreForm.get('titre')?.hasError('required')">Titre requis</mat-error>
+    <mat-error *ngIf="offreForm.get('titre')?.hasError('minlength')">2 caractères minimum</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Type de contrat</label>
+    <input matInput formControlName="type_contrat" required>
+    <mat-error *ngIf="offreForm.get('type_contrat')?.hasError('required')">Type de contrat requis</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Statut</label>
+    <input matInput formControlName="statut" required>
+    <mat-error *ngIf="offreForm.get('statut')?.hasError('required')">Statut requis</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Date de publication</label>
+    <input matInput formControlName="date_publication" required>
+    <mat-error *ngIf="offreForm.get('date_publication')?.hasError('required')">Date requise</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{ offreEmploiEnEdition ? 'Modifier' : 'Ajouter' }}</button>
+  <button *ngIf="offreEmploiEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+</form>
+<table mat-table [dataSource]="offresEmploi" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="titre">
+    <th mat-header-cell *matHeaderCellDef>Titre</th>
+    <td mat-cell *matCellDef="let offre">{{ offre.titre }}</td>
+  </ng-container>
+  <ng-container matColumnDef="type_contrat">
+    <th mat-header-cell *matHeaderCellDef>Type de contrat</th>
+    <td mat-cell *matCellDef="let offre">{{ offre.type_contrat }}</td>
+  </ng-container>
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
+    <td mat-cell *matCellDef="let offre">{{ offre.statut }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date_publication">
+    <th mat-header-cell *matHeaderCellDef>Date de publication</th>
+    <td mat-cell *matCellDef="let offre">{{ offre.date_publication }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let offre">
+      <button mat-icon-button color="primary" (click)="editerOffreEmploi(offre)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="confirmerSuppression(offre)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 

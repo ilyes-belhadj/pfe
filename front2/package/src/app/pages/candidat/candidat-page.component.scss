@@ -1,0 +1,56 @@
+h2 { color: #1976d2; }
+form { margin-bottom: 1rem; }
+input { margin-right: 0.5rem; }
+ul { list-style: none; padding: 0; }
+li { padding: 0.25rem 0; } 
+
+.form-candidat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.form-candidat mat-form-field {
+  flex: 1 1 200px;
+  min-width: 180px;
+}
+
+.form-candidat button[type="submit"] {
+  height: 40px;
+  align-self: center;
+  margin-left: 16px;
+}
+
+.table-candidat {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.table-candidat .mat-header-row, .table-candidat .mat-header-cell {
+  background: #1976d2;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.table-candidat .mat-row {
+  transition: background 0.2s;
+}
+
+.table-candidat .mat-row:nth-child(even) {
+  background: #f5f7fa;
+}
+
+.table-candidat .mat-row:hover {
+  background: #e3f2fd;
+}
+
+.table-candidat .mat-cell, .table-candidat .mat-header-cell {
+  text-align: center;
+  font-size: 1rem;
+  padding: 12px 0;
+} 

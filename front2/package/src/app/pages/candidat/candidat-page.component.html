@@ -1,0 +1,59 @@
+<h2>Gestion des candidats</h2>
+<form [formGroup]="candidatForm" (ngSubmit)="onSubmit()" class="form-candidat">
+  <mat-form-field>
+    <label>Nom</label>
+    <input matInput formControlName="nom" required>
+    <mat-error *ngIf="candidatForm.get('nom')?.hasError('required')">Nom requis</mat-error>
+    <mat-error *ngIf="candidatForm.get('nom')?.hasError('minlength')">2 caractères minimum</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Prénom</label>
+    <input matInput formControlName="prenom" required>
+    <mat-error *ngIf="candidatForm.get('prenom')?.hasError('required')">Prénom requis</mat-error>
+    <mat-error *ngIf="candidatForm.get('prenom')?.hasError('minlength')">2 caractères minimum</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Email</label>
+    <input matInput formControlName="email" required>
+    <mat-error *ngIf="candidatForm.get('email')?.hasError('required')">Email requis</mat-error>
+    <mat-error *ngIf="candidatForm.get('email')?.hasError('email')">Format email invalide</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Statut</mat-label>
+    <mat-select formControlName="statut" required>
+      <mat-option value="actif">Actif</mat-option>
+      <mat-option value="inactif">Inactif</mat-option>
+      <mat-option value="blacklist">Blacklist</mat-option>
+    </mat-select>
+    <mat-error *ngIf="candidatForm.get('statut')?.hasError('required')">Statut requis</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{ candidatEnEdition ? 'Modifier' : 'Ajouter' }}</button>
+  <button *ngIf="candidatEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+</form>
+<table mat-table [dataSource]="candidats" class="mat-elevation-z8 table-candidat" style="margin-top:2rem;">
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef>Nom</th>
+    <td mat-cell *matCellDef="let candidat">{{ candidat.nom }}</td>
+  </ng-container>
+  <ng-container matColumnDef="prenom">
+    <th mat-header-cell *matHeaderCellDef>Prénom</th>
+    <td mat-cell *matCellDef="let candidat">{{ candidat.prenom }}</td>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let candidat">{{ candidat.email }}</td>
+  </ng-container>
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
+    <td mat-cell *matCellDef="let candidat">{{ candidat.statut }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let candidat">
+      <button mat-icon-button color="primary" (click)="editerCandidat(candidat)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="confirmerSuppression(candidat)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 

@@ -1,0 +1,58 @@
+<h2>Liste des employés</h2>
+
+<form [formGroup]="employeForm" (ngSubmit)="onSubmit()" style="margin-bottom:2rem;max-width:600px;">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Nom</mat-label>
+    <input matInput formControlName="nom" required>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Prénom</mat-label>
+    <input matInput formControlName="prenom" required>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" required type="email">
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Date d'embauche</mat-label>
+    <input matInput formControlName="date_embauche" type="date">
+  </mat-form-field>
+  <div style="margin-top:1rem;">
+    <button mat-raised-button color="primary" type="submit" [disabled]="employeForm.invalid">
+      {{ employeEnEdition ? 'Modifier' : 'Ajouter' }}
+    </button>
+    <button *ngIf="employeEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+  </div>
+</form>
+
+<mat-table [dataSource]="employes" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-cell *matCellDef="let e">{{e.id}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="nom">
+    <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+    <mat-cell *matCellDef="let e">{{e.nom}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="prenom">
+    <mat-header-cell *matHeaderCellDef>Prénom</mat-header-cell>
+    <mat-cell *matCellDef="let e">{{e.prenom}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+    <mat-cell *matCellDef="let e">{{e.email}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date_embauche">
+    <mat-header-cell *matHeaderCellDef>Date d'embauche</mat-header-cell>
+    <mat-cell *matCellDef="let e">{{e.date_embauche}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let e">
+      <button mat-icon-button color="primary" (click)="editerEmploye(e)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="supprimerEmploye(e.id)"><mat-icon>delete</mat-icon></button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table> 

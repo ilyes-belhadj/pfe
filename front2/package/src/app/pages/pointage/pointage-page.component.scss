@@ -1,0 +1,101 @@
+h2 { color: #1976d2; }
+form { margin-bottom: 1rem; }
+input { margin-right: 0.5rem; }
+ul { list-style: none; padding: 0; }
+li { padding: 0.25rem 0; } 
+
+table.mat-table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.mat-header-row, .mat-header-cell {
+  background: #1976d2;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.mat-row {
+  transition: background 0.2s;
+}
+
+.mat-row:nth-child(even) {
+  background: #f5f7fa;
+}
+
+.mat-row:hover {
+  background: #e3f2fd;
+}
+
+.mat-cell, .mat-header-cell {
+  text-align: center;
+  font-size: 1rem;
+  padding: 12px 0;
+} 
+
+.form-pointage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.form-pointage mat-form-field {
+  flex: 1 1 200px;
+  min-width: 180px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.form-pointage .mat-form-field-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-pointage .mat-form-field-flex {
+  align-items: center !important;
+}
+
+.form-pointage button[mat-button] {
+  margin-top: 8px;
+  min-width: 90px;
+}
+
+.form-pointage button[type="submit"] {
+  height: 40px;
+  align-self: center;
+  margin-left: 16px;
+} 
+
+.heure-field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+}
+
+.heure-field input {
+  margin-bottom: 4px;
+} 
+
+.heure-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 80px;
+  min-width: 180px;
+  flex: 1 1 200px;
+}
+
+.heure-group button[mat-button] {
+  margin-top: 4px;
+  align-self: flex-end;
+  min-width: 90px;
+} 

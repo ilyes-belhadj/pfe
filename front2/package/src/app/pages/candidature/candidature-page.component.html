@@ -1,0 +1,81 @@
+<h2>Ajouter une candidature</h2>
+<form [formGroup]="candidatureForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-candidature">
+  <mat-form-field>
+    <mat-label>Candidat</mat-label>
+    <mat-select formControlName="candidat_id" required>
+      <mat-option *ngFor="let c of candidats" [value]="c.id">{{ c.nom }} {{ c.prenom }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Département</mat-label>
+    <mat-select formControlName="departement_id" required>
+      <mat-option *ngFor="let d of departements" [value]="d.id">{{ d.nom }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Recruteur</mat-label>
+    <mat-select formControlName="recruteur_id" required>
+      <mat-option *ngFor="let r of recruteurs" [value]="r.id">{{ r.nom }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Statut</mat-label>
+    <mat-select formControlName="statut" required>
+      <mat-option value="nouvelle">Nouvelle</mat-option>
+      <mat-option value="en_cours">En cours</mat-option>
+      <mat-option value="entretien_telephone">Entretien téléphone</mat-option>
+      <mat-option value="entretien_rh">Entretien RH</mat-option>
+      <mat-option value="entretien_technique">Entretien technique</mat-option>
+      <mat-option value="entretien_final">Entretien final</mat-option>
+      <mat-option value="test_technique">Test technique</mat-option>
+      <mat-option value="reference_check">Reference check</mat-option>
+      <mat-option value="offre_envoyee">Offre envoyée</mat-option>
+      <mat-option value="offre_acceptee">Offre acceptée</mat-option>
+      <mat-option value="embauche">Embauche</mat-option>
+      <mat-option value="refusee">Refusée</mat-option>
+      <mat-option value="annulee">Annulée</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Date de candidature</mat-label>
+    <input matInput [matDatepicker]="datePicker" formControlName="date_candidature" required>
+    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker #datePicker></mat-datepicker>
+  </mat-form-field>
+  <div>
+    <label>CV :</label>
+    <input type="file" (change)="onCvSelected($event)">
+  </div>
+  <div>
+    <label>Lettre de motivation :</label>
+    <input type="file" (change)="onLettreSelected($event)">
+  </div>
+  <button mat-raised-button color="primary" type="submit">Ajouter</button>
+</form>
+<table mat-table [dataSource]="candidatures" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="intitule">
+    <th mat-header-cell *matHeaderCellDef>Intitulé</th>
+    <td mat-cell *matCellDef="let candidature">{{ candidature.intitule }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let candidature">{{ candidature.date }}</td>
+  </ng-container>
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
+    <td mat-cell *matCellDef="let candidature">{{ candidature.statut }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date_candidature">
+    <th mat-header-cell *matHeaderCellDef>Date candidature</th>
+    <td mat-cell *matCellDef="let candidature">{{ candidature.date_candidature }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let candidature">
+      <button mat-icon-button color="primary" (click)="editerCandidature(candidature)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="confirmerSuppression(candidature)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 

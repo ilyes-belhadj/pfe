@@ -1,0 +1,55 @@
+<h2>Gestion des utilisateurs</h2>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <label>Nom</label>
+    <input matInput formControlName="nom" required>
+    <mat-error *ngIf="userForm.get('nom')?.hasError('required')">Nom requis</mat-error>
+    <mat-error *ngIf="userForm.get('nom')?.hasError('minlength')">2 caractères minimum</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Prénom</label>
+    <input matInput formControlName="prenom" required>
+    <mat-error *ngIf="userForm.get('prenom')?.hasError('required')">Prénom requis</mat-error>
+    <mat-error *ngIf="userForm.get('prenom')?.hasError('minlength')">2 caractères minimum</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Email</label>
+    <input matInput formControlName="email" required>
+    <mat-error *ngIf="userForm.get('email')?.hasError('required')">Email requis</mat-error>
+    <mat-error *ngIf="userForm.get('email')?.hasError('email')">Format email invalide</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Rôle</label>
+    <input matInput formControlName="role_id" required>
+    <mat-error *ngIf="userForm.get('role_id')?.hasError('required')">Rôle requis</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{ userEnEdition ? 'Modifier' : 'Ajouter' }}</button>
+  <button *ngIf="userEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+</form>
+<table mat-table [dataSource]="users" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef>Nom</th>
+    <td mat-cell *matCellDef="let user">{{ user.nom }}</td>
+  </ng-container>
+  <ng-container matColumnDef="prenom">
+    <th mat-header-cell *matHeaderCellDef>Prénom</th>
+    <td mat-cell *matCellDef="let user">{{ user.prenom }}</td>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+  </ng-container>
+  <ng-container matColumnDef="role_id">
+    <th mat-header-cell *matHeaderCellDef>Rôle</th>
+    <td mat-cell *matCellDef="let user">{{ user.role_id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let user">
+      <button mat-icon-button color="primary" (click)="editerUser(user)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="confirmerSuppression(user)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 

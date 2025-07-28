@@ -1,0 +1,75 @@
+<h2>Liste des absences</h2>
+
+<form [formGroup]="absenceForm" (ngSubmit)="onSubmit()" style="margin-bottom:2rem;max-width:600px;">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Employé</mat-label>
+    <mat-select formControlName="employe_id" required>
+      <mat-option *ngFor="let employe of employes" [value]="employe.id">
+        {{ employe.nom }} {{ employe.prenom }} (ID: {{ employe.id }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Date début</mat-label>
+    <input matInput [matDatepicker]="debutPicker" formControlName="date_debut" required>
+    <mat-datepicker-toggle matSuffix [for]="debutPicker"></mat-datepicker-toggle>
+    <mat-datepicker #debutPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Date fin</mat-label>
+    <input matInput [matDatepicker]="finPicker" formControlName="date_fin" required>
+    <mat-datepicker-toggle matSuffix [for]="finPicker"></mat-datepicker-toggle>
+    <mat-datepicker #finPicker></mat-datepicker>
+    <mat-error *ngIf="absenceForm.hasError('dateFinInvalide')">La date de fin doit être après ou égale à la date de début.</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Motif</mat-label>
+    <input matInput formControlName="motif" required>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Statut</mat-label>
+    <input matInput formControlName="statut">
+  </mat-form-field>
+  <div style="margin-top:1rem;">
+    <button mat-raised-button color="primary" type="submit" [disabled]="absenceForm.invalid">
+      {{ absenceEnEdition ? 'Modifier' : 'Ajouter' }}
+    </button>
+    <button *ngIf="absenceEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+  </div>
+</form>
+
+<mat-table [dataSource]="absences" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+    <mat-cell *matCellDef="let a">{{a.id}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="employe_id">
+    <mat-header-cell *matHeaderCellDef>Employé</mat-header-cell>
+    <mat-cell *matCellDef="let a">{{a.employe_id}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date_debut">
+    <mat-header-cell *matHeaderCellDef>Date début</mat-header-cell>
+    <mat-cell *matCellDef="let a">{{a.date_debut}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="date_fin">
+    <mat-header-cell *matHeaderCellDef>Date fin</mat-header-cell>
+    <mat-cell *matCellDef="let a">{{a.date_fin}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="motif">
+    <mat-header-cell *matHeaderCellDef>Motif</mat-header-cell>
+    <mat-cell *matCellDef="let a">{{a.motif}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="statut">
+    <mat-header-cell *matHeaderCellDef>Statut</mat-header-cell>
+    <mat-cell *matCellDef="let a">{{a.statut}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let a">
+      <button mat-icon-button color="primary" (click)="editerAbsence(a)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="supprimerAbsence(a.id)"><mat-icon>delete</mat-icon></button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table> 

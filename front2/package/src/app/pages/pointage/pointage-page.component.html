@@ -1,0 +1,57 @@
+<h2>Gestion des pointages</h2>
+<form [formGroup]="pointageForm" (ngSubmit)="onSubmit()" class="form-pointage">
+  <mat-form-field>
+    <mat-label>Employé</mat-label>
+    <mat-select formControlName="employe_id" required>
+      <mat-option *ngFor="let employe of employes" [value]="employe.id">
+        {{ employe.nom }} {{ employe.prenom }} (ID: {{ employe.id }})
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="pointageForm.get('employe_id')?.hasError('required')">Employé requis</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Date</mat-label>
+    <input matInput formControlName="date_pointage" required readonly>
+    <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="true"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="true"></mat-datepicker>
+    <mat-error *ngIf="pointageForm.get('date_pointage')?.hasError('required')">Date requise</mat-error>
+  </mat-form-field>
+  <div class="heure-group">
+    <mat-form-field>
+      <label>Heure d'arrivée</label>
+      <input matInput formControlName="heure_entree" required readonly>
+      <mat-error *ngIf="pointageForm.get('heure_entree')?.hasError('required')">Heure d'arrivée requise</mat-error>
+    </mat-form-field>
+    <button mat-button type="button" (click)="setHeureArriveeNow()">Maintenant</button>
+  </div>
+  <div class="heure-group">
+    <mat-form-field>
+      <label>Heure de départ</label>
+      <input matInput formControlName="heure_sortie" required readonly>
+      <mat-error *ngIf="pointageForm.get('heure_sortie')?.hasError('required')">Heure de départ requise</mat-error>
+    </mat-form-field>
+    <button mat-button type="button" (click)="setHeureDepartNow()">Maintenant</button>
+  </div>
+  <button mat-raised-button color="primary" type="submit">{{ pointageEnEdition ? 'Modifier' : 'Ajouter' }}</button>
+  <button *ngIf="pointageEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+</form>
+<table mat-table [dataSource]="pointages" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="employe">
+    <th mat-header-cell *matHeaderCellDef>Employé</th>
+    <td mat-cell *matCellDef="let pointage">{{ pointage.employe_id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let pointage">{{ pointage.date_pointage }}</td>
+  </ng-container>
+  <ng-container matColumnDef="heure_entree">
+    <th mat-header-cell *matHeaderCellDef>Heure d'arrivée</th>
+    <td mat-cell *matCellDef="let pointage">{{ pointage.heure_entree | date:'HH:mm:ss' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="heure_sortie">
+    <th mat-header-cell *matHeaderCellDef>Heure de départ</th>
+    <td mat-cell *matCellDef="let pointage">{{ pointage.heure_sortie | date:'HH:mm:ss' }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 

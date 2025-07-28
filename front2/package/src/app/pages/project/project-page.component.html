@@ -1,0 +1,53 @@
+<h2>Gestion des projets</h2>
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <label>Nom</label>
+    <input matInput formControlName="nom" required>
+    <mat-error *ngIf="projectForm.get('nom')?.hasError('required')">Nom requis</mat-error>
+    <mat-error *ngIf="projectForm.get('nom')?.hasError('minlength')">2 caractères minimum</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Date de début</label>
+    <input matInput formControlName="date_debut" required>
+    <mat-error *ngIf="projectForm.get('date_debut')?.hasError('required')">Date de début requise</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Date de fin</label>
+    <input matInput formControlName="date_fin" required>
+    <mat-error *ngIf="projectForm.get('date_fin')?.hasError('required')">Date de fin requise</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Statut</label>
+    <input matInput formControlName="statut" required>
+    <mat-error *ngIf="projectForm.get('statut')?.hasError('required')">Statut requis</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{ projectEnEdition ? 'Modifier' : 'Ajouter' }}</button>
+  <button *ngIf="projectEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+</form>
+<table mat-table [dataSource]="projects" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="nom">
+    <th mat-header-cell *matHeaderCellDef>Nom</th>
+    <td mat-cell *matCellDef="let project">{{ project.nom }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date_debut">
+    <th mat-header-cell *matHeaderCellDef>Date de début</th>
+    <td mat-cell *matCellDef="let project">{{ project.date_debut }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date_fin">
+    <th mat-header-cell *matHeaderCellDef>Date de fin</th>
+    <td mat-cell *matCellDef="let project">{{ project.date_fin }}</td>
+  </ng-container>
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
+    <td mat-cell *matCellDef="let project">{{ project.statut }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let project">
+      <button mat-icon-button color="primary" (click)="editerProject(project)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="confirmerSuppression(project)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 

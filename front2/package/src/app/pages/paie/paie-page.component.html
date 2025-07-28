@@ -1,0 +1,53 @@
+<h2>Gestion des paies</h2>
+<form [formGroup]="paieForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <label>Employé</label>
+    <input matInput formControlName="employe_id" required>
+    <mat-error *ngIf="paieForm.get('employe_id')?.hasError('required')">Employé requis</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Mois</label>
+    <input matInput formControlName="mois" required>
+    <mat-error *ngIf="paieForm.get('mois')?.hasError('required')">Mois requis</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Salaire</label>
+    <input matInput formControlName="salaire" required>
+    <mat-error *ngIf="paieForm.get('salaire')?.hasError('required')">Salaire requis</mat-error>
+    <mat-error *ngIf="paieForm.get('salaire')?.hasError('min')">Salaire invalide</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <label>Statut</label>
+    <input matInput formControlName="statut" required>
+    <mat-error *ngIf="paieForm.get('statut')?.hasError('required')">Statut requis</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{ paieEnEdition ? 'Modifier' : 'Ajouter' }}</button>
+  <button *ngIf="paieEnEdition" mat-button type="button" (click)="annulerEdition()">Annuler</button>
+</form>
+<table mat-table [dataSource]="paies" class="mat-elevation-z8" style="margin-top:2rem;">
+  <ng-container matColumnDef="employe">
+    <th mat-header-cell *matHeaderCellDef>Employé</th>
+    <td mat-cell *matCellDef="let paie">{{ paie.employe_id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="mois">
+    <th mat-header-cell *matHeaderCellDef>Mois</th>
+    <td mat-cell *matCellDef="let paie">{{ paie.mois }}</td>
+  </ng-container>
+  <ng-container matColumnDef="salaire">
+    <th mat-header-cell *matHeaderCellDef>Salaire</th>
+    <td mat-cell *matCellDef="let paie">{{ paie.salaire }}</td>
+  </ng-container>
+  <ng-container matColumnDef="statut">
+    <th mat-header-cell *matHeaderCellDef>Statut</th>
+    <td mat-cell *matCellDef="let paie">{{ paie.statut }}</td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let paie">
+      <button mat-icon-button color="primary" (click)="editerPaie(paie)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="confirmerSuppression(paie)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> 
